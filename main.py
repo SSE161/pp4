@@ -6,7 +6,7 @@ bot = TeleBot('5840368956:AAG9AdmUBT3R_tkZ0hbtp25uQkutCRKzzEg')
 
 @bot.message_handler(commands=['start'])
 def start(message):
-    string = "Привет! я УМЕЮ показывать курс валюты (доллары, евро и юани)"
+    string = "Привет! я УМЕЮ показывать курс валюты (доллары, евро и юани. Для этого напиши /dollar /euro /yuan)"
     bot.send_message(message.chat.id, string, parse_mode='html')
 
 
@@ -21,7 +21,7 @@ def dollar(message):
 
 
 @bot.message_handler(commands=['euro'])
-def dollar(message):
+def euro(message):
     url = 'https://cbr.ru/key-indicators/'
     r = requests.get(url)
     soup = b(r.text, 'lxml')
@@ -31,12 +31,13 @@ def dollar(message):
 
 
 @bot.message_handler(commands=['yuan'])
-def dollar(message):
+def yuan(message):
     url = 'https://cbr.ru/key-indicators/'
     r = requests.get(url)
     soup = b(r.text, 'lxml')
     string = soup.find_all("td", class_="value td-w-4 _bold _end mono-num")[2]
     string = string.text
+    string += " рублей за 10 юаней"
     bot.send_message(message.chat.id, string)
 
 
